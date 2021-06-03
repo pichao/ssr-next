@@ -1,0 +1,15 @@
+部署注意点，此项目最好是用npm，不适用yarn，因为yarn config set 设置参数会有问题
+
+
+1.npm 设置参数 npm config set port 9999 id 666 即可从process.env取npm_config_port和npm_config_id的值
+2.接口请求地址写绝对路径包括node服务监听端口
+
+运维部署步骤：
+    1. npm config set port 8000 siteId 7  //    设置node服务监听端口和其他参数，此处8000即是node服务端口
+    2. npm run build // 生成生产环境目录dist,即为部署目录
+    3. 在dist目录下执行npm i
+    3. pm2部署，pm2 start ecosystem.config.js
+
+
+
+next参考文章：https://keyboard3.github.io/blog/nextjs-docs/

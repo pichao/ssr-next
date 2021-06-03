@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "jsx": "preserve",
+        "module": "esnext",
+        "noImplicitAny": false,
+        "outDir": "./build/",
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "preserveConstEnums": true,
+        "removeComments": false,
+        "sourceMap": true,
+        "target": "es5",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": false,
+        "strictNullChecks": false,
+        "forceConsistentCasingInFileNames": true,
+        "noEmit": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "baseUrl": ".",
+        "paths": {
+            "react": ["node_modules/preact/compat"],
+            "react-dom": ["node_modules/preact/compat"]
+        }
+    },
+    "exclude": ["node_modules"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+}
