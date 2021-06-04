@@ -10,6 +10,7 @@ import { config } from '../config';
 import { Button, DatePicker } from 'antd';
 
 import Link from 'next/link';
+import io from 'socket.io-client';
 
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 export interface HelloWorldProps {
@@ -21,22 +22,60 @@ const Index = (props: HelloWorldProps) => {
         return state;
     }, shallowEqual) as any;
     console.log(selectedData, 'rrrrrrrrr');
-    console.log(process.env, '这是什么玩意');
-    // useEffect(() => {
-    //     if ('serviceWorker' in navigator) {
-    //         navigator.serviceWorker
-    //             .register('/service-worker.js')
-    //             .catch((err) => console.error('Service worker registration failed', err));
-    //     } else {
-    //         console.log('Service worker not supported');
-    //     }
-    // }, []);
+    console.log(process.env, '这是什么玩意11111');
+    useEffect(() => {
+        if (process.env.serviceWorker) {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker
+                    .register('/service-worker.js')
+                    .catch((err) => console.error('Service worker registration failed', err));
+            } else {
+                console.log('Service worker not supported');
+            }
+            const socket = io();
+            socket.on('update', (data) => {
+                console.log(data, 'socketdata');
+
+                if (localStorage.versionInfo) {
+                    const versionInfo = JSON.parse(localStorage.versionInfo);
+                    if (versionInfo.pid !== data.pid && versionInfo.updateStamp !== data.updateStamp) {
+                        // 只有前后端都更新了才刷新页面或者通知用户
+                        console.log('版本更新');
+                        localStorage.versionInfo = JSON.stringify(data);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 5000);
+                    }
+                } else {
+                    localStorage.versionInfo = JSON.stringify(data);
+                }
+            });
+        } else {
+            const sw = window.navigator.serviceWorker;
+
+            sw.getRegistration('/serviceWorker').then((registration) => {
+                if (registration) {
+                    // 手动注销
+                    registration.unregister();
+                    // 清除缓存
+                    window.caches &&
+                        caches.keys &&
+                        caches.keys().then(function (keys) {
+                            keys.forEach(function (key) {
+                                caches.delete(key);
+                            });
+                        });
+                }
+            });
+        }
+    }, []);
+
     return (
         <div>
             <div>{dayjs().valueOf()}</div>
             <img src={'/images/a.jpg'} />
             <Image src={'/images/a.jpg'} alt="me" width="64" height="64" />
-            <div className={styles.aaa}>这是首页</div>
+            <div className={styles.aaa}>这是首页444</div>
             <Button
                 type={'primary'}
                 onClick={async () => {

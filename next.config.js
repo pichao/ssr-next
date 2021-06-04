@@ -4,14 +4,16 @@ module.exports = {
     webpack(config, { webpack, isServer }) {
         config.resolve.alias['react'] = 'preact/compat';
         config.resolve.alias['react-dom'] = 'preact/compat';
-
+        console.log(typeof process.env.serviceWorker, 'process.env.serviceWorker');
         config.plugins = [
             ...config.plugins,
             new webpack.DefinePlugin({
                 'process.env': JSON.stringify({
                     port: process.env.npm_config_port,
+                    serviceWorker: Boolean(process.env.npm_config_serviceWorker),
                 }),
             }),
+
             new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         ];
 

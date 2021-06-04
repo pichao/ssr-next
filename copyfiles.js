@@ -41,12 +41,30 @@ function copy(originalUrl, targetUrl) {
         if (STATUS.isFile()) {
             // 在新目录中创建同名文件，并将原文件内容追加到新文件中
             if (originalUrl === './server.js') {
+                console.log(process.env, 'ttttttttt');
                 fs.writeFileSync(
                     `${targetUrl}/${fileName}`,
                     fs
                         .readFileSync(originalUrl)
                         .toString('utf-8')
-                        .replace(/process.env.npm_config_port/, process.env.npm_config_port),
+                        .replace(/process.env.npm_config_port/, process.env.npm_config_port)
+                        .replace(/false/, process.env.npm_config_serviceWorker),
+                );
+            } else if (originalUrl === './serviceworker_update.txt') {
+                fs.writeFileSync(
+                    `${targetUrl}/${fileName}`,
+                    fs
+                        .readFileSync(originalUrl)
+                        .toString('utf-8')
+                        .replace(/timeStamp/, new Date().getTime()),
+                );
+            } else if (originalUrl === './service-worker.js') {
+                fs.writeFileSync(
+                    `${targetUrl}/public/${fileName}`,
+                    fs
+                        .readFileSync(originalUrl)
+                        .toString('utf-8')
+                        .replace(/static_cache/, `static_cache_${new Date().getTime()}`),
                 );
             } else {
                 fs.writeFileSync(`${targetUrl}/${fileName}`, fs.readFileSync(originalUrl));
@@ -87,6 +105,7 @@ function move(originalUrl, targetUrl) {
 
 const getTargetFiles = () => {
     const filesArr = [
+        './serviceworker_update.txt',
         './.next',
         './public',
         './next.config.js',
@@ -95,6 +114,7 @@ const getTargetFiles = () => {
         './server.js',
         'package-lock.json',
         'yarn.lock',
+        './service-worker.js',
     ];
     filesArr.forEach((file) => {
         copy(file, './dist');

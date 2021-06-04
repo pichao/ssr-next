@@ -26,20 +26,41 @@ const app = next({
 });
 const handle = app.getRequestHandler();
 const cors = require('cors');
-
+const socketIo = require('socket.io');
+const fs = require('fs');
+const isServiceWorker = false;
 app.prepare()
     .then(() => {
         const server = express();
         server.use(cors());
+        var http = require('http').createServer(server);
         Object.keys(devProxy).forEach(function (context) {
             server.use(createProxyMiddleware(context, devProxy[context]));
         });
+
+        if (isServiceWorker) {
+            const io = new socketIo.Server();
+            io.attach(http);
+            let timer = null;
+            io.on('connection', (socket) => {
+                clearInterval(timer);
+                timer = setInterval(() => {
+                    const updateStamp = fs.readFileSync('./serviceworker_update.txt').toString();
+
+                    socket.emit('update', { updateStamp, pid: process.pid });
+                }, 5000);
+
+                socket.on('disconnect', () => {
+                    console.log('client disconnected');
+                });
+            });
+        }
 
         server.all('*', (req, res) => {
             handle(req, res);
         });
 
-        server.listen(port, (err) => {
+        http.listen(port, (err) => {
             if (err) {
                 throw err;
             }
