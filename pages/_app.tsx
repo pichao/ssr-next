@@ -1,10 +1,8 @@
 import React from 'react';
 
 import { wrapper } from '../store/index';
-import 'antd/dist/antd.css';
-// import 'antd/lib/button/style/index.css';
+import 'antd-mobile/dist/antd-mobile.css';
 
-// import 'antd/lib/date-picker/style/index.css';
 const WrappedApp = (props) => {
     const { pageProps, Component } = props;
     return <Component {...pageProps} />;

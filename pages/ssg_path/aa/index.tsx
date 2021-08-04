@@ -8,8 +8,8 @@ export interface HelloWorldProps {
 const About = (props: HelloWorldProps) => {
     return (
         <div>
-            <div className={styles.about}>这是about页面</div>
-            <Link href="/ssg_path/55">详情页</Link>
+            <div className={styles.about}>这是aa页面</div>
+            <Link href="/ssg_path/aa/55">aa详情页</Link>
         </div>
     );
 };

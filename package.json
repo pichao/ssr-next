@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "setConfig": "npm config set port 8000 siteId 7 ",
+        "setConfig": "npm config set port 8000 siteId 7 serviceWorker 333",
         "setConfig_serviceWorker": "npm config set port 8000 siteId 7 serviceWorker true",
         "dev": "npm run setConfig && node server.js",
         "dev_serviceWorker": "npm run setConfig_serviceWorker && node server.js",
@@ -16,6 +16,7 @@
     "license": "ISC",
     "dependencies": {
         "antd": "^4.16.0",
+        "antd-mobile": "^2.3.4",
         "axios": "^0.21.1",
         "cors": "^2.8.5",
         "dayjs": "^1.10.5",

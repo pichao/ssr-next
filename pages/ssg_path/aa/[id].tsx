@@ -13,7 +13,7 @@ const Post = ({ post }) => {
     }
     return (
         <div>
-            <div className={styles.about}>这是aboutID页面</div>
+            <div className={styles.about}>这是aaID页面</div>
         </div>
     );
 };

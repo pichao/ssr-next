@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { wrapper } from '../../store';
 import A from 'components/index';
-import { Button, DatePicker } from 'antd';
+import { Button, DatePicker } from 'antd-mobile';
 import { config } from 'config';
 import Link from 'next/link';
 import axios from 'axios';

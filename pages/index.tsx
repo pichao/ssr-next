@@ -7,7 +7,7 @@ import Router from 'next/router';
 import dayjs from 'dayjs';
 import { handleAjax } from '../utils';
 import { config } from '../config';
-import { Button, DatePicker } from 'antd';
+import { Button, DatePicker } from 'antd-mobile';
 
 import Link from 'next/link';
 import io from 'socket.io-client';
