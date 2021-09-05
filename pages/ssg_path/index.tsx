@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './index.module.scss';
 import Link from 'next/link';
+// import { getServerSideProps } from 'pages';
 export interface HelloWorldProps {
     userName?: string;
     lang?: string;
@@ -13,17 +14,13 @@ const About = (props: HelloWorldProps) => {
         </div>
     );
 };
-About.getInitialProps = async function ({ store }) {
-    const res = await fetch('http://api.tvmaze.com/search/shows?q=batman');
-    const data = await res.json();
-    store.dispatch({
-        type: 'GET_USER_SUCCESS',
-        payload: {
-            cc: data,
-        },
-    });
+
+export async function getServerSideProps(context) {
+    // console.log(publicRuntimeConfig, '这是什么玩意2222');
+    // const res = await axios('http://localhost:8000/api/search/shows?q=batman');
+    // console.log(data, 'shouye_render');
     return {
-        shows: data,
+        props: {}, // will be passed to the page component as props
     };
-};
+}
 export default About;

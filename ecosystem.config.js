@@ -1,3 +1,5 @@
+console.log(process.env, 'uuuuuuuuuuuuuu');
+
 module.exports = {
     apps: [
         {
@@ -7,8 +9,11 @@ module.exports = {
             exec_mode: 'cluster',
             instances: 4,
             watch: false,
-            env: {
+            env_production: {
                 NODE_ENV: 'production',
+            },
+            env_development: {
+                NODE_ENV: 'development',
             },
         },
     ],

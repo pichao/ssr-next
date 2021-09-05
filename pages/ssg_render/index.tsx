@@ -1,10 +1,8 @@
 import styles from './index.module.scss';
 import React, { useEffect } from 'react';
 import Image from 'next/image';
-import { shallowEqual, useSelector, useDispatch } from 'react-redux';
-import { wrapper } from '../../store';
 import A from 'components/index';
-import { Button, DatePicker } from 'antd-mobile';
+import { Button, DatePicker } from 'antd';
 import { config } from 'config';
 import Link from 'next/link';
 import axios from 'axios';
@@ -19,12 +17,12 @@ export interface HelloWorldProps {
 
 import B from 'components/index';
 const Home = (props) => {
-    const selectedData = useSelector((state) => {
-        return state;
-    }, shallowEqual) as any;
+    // const selectedData = useSelector((state) => {
+    //     return state;
+    // }, shallowEqual) as any;
 
-    const dispatch = useDispatch();
-    console.log(props, selectedData, 'mmmmmmmmmmm');
+    // const dispatch = useDispatch();
+    // console.log(props, selectedData, 'mmmmmmmmmmm');
     const { num } = props;
     return (
         <div>
@@ -35,19 +33,19 @@ const Home = (props) => {
             </Link>
             <button
                 onClick={() => {
-                    dispatch({
-                        type: 'GET_USER_SUCCESS',
-                        payload: {
-                            per_page: 2,
-                        },
-                    });
+                    // dispatch({
+                    //     type: 'GET_USER_SUCCESS',
+                    //     payload: {
+                    //         per_page: 2,
+                    //     },
+                    // });
                 }}
             >
                 发action
             </button>
-            <div>{selectedData.firstReducer.per_page}</div>
+            {/* <div>{selectedData.firstReducer.per_page}</div> */}
 
-            <div>{num.t}</div>
+            {/* <div>{num.t}</div> */}
             <Button type={'primary'}>antd</Button>
             <DatePicker />
             <Image src={'/images/a.jpg'} alt="Picture of the author" width={500} height={500} />
@@ -58,33 +56,23 @@ const Home = (props) => {
 };
 export const getStaticProps = async () => {
     // 静态文件生成时，需要先开启本地node服务代理，拿到数据,因为静态生成是在编译的时候就生成数据了
-    const data = await axios({
-        method: 'get',
-        url: 'http://127.0.0.1:4000/api/search/shows',
-        params: {
-            q: 'ball',
-        },
-    });
-    console.log(data.data, '这是数据');
+    // const data = await axios({
+    //     method: 'get',
+    //     url: 'http://127.0.0.1:4000/api/search/shows',
+    //     params: {
+    //         q: 'ball',
+    //     },
+    // });
+    // console.log(data.data, '这是数据');
 
     return {
         props: {
-            num: data.data,
+            // num: data.data,
             // list: data,
             // pitterData,
         },
-        revalidate: 1,
+        // revalidate: 1,
     };
 };
-// Home.getInitialProps = ({ store }) => {
-//     console.log(store, 'nnnnnnnnnnnn');
 
-//     // store.dispatch({
-//     //     type: 'rotate',
-//     //     payload: {
-//     //         per_page: 2,
-//     //     },
-//     // });
-//     return {};
-// };
 export default Home;

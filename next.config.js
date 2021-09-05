@@ -1,46 +1,70 @@
-module.exports = {
-    compress: true,
-    basePath: '', // 允许你轻松将 Next.js 项目托管在域的子路径上。
-    webpack(config, { webpack, isServer }) {
-        config.resolve.alias['react'] = 'preact/compat';
-        config.resolve.alias['react-dom'] = 'preact/compat';
+const withPlugins = require('next-compose-plugins');
+const withAntdLess = require('next-plugin-antd-less');
+// const withSass = require('@zeit/next-sass');
 
-        config.plugins = [
-            ...config.plugins,
-            new webpack.DefinePlugin({
-                'process.env': JSON.stringify({
-                    port: process.env.npm_config_port,
-                    serviceWorker: Boolean(process.env.npm_config_serviceWorker === 'true'),
-                }),
-            }),
+const withImages = require('next-images');
+// const withPWA = require('next-pwa');
+const pluginAntdLess = withAntdLess({
+    // modifyVars: {
+    //   '@THEME--DARK': 'theme-dark',
+    // },
+    // lessVarsFilePath: './src/styles/variables.less',
+    // cssLoaderOptions: {
+    //   esModule: false,
+    //   sourceMap: false,
+    //   modules: {
+    //     mode: 'local',
+    //   },
+    // },
+});
+module.exports = withPlugins(
+    [
+        [pluginAntdLess],
+        [
+            withImages,
+            {
+                // assetPrefix: 'https://example.com',
+                esModule: false,
+            },
+        ],
+        // [
+        //     withPWA,
+        //     {
+        //         pwa: {
+        //             dest: 'public',
+        //             // disable: process.env.NODE_ENV === 'development',
+        //             // register: true,
+        //             // scope: '/',
+        //             skipWaiting: true,
+        //             sw: 'service-worker.js',
+        //             //...
+        //         },
+        //     },
+        // ],
+    ],
+    {
+        distDir: 'bnext',
 
-            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-        ];
-
-        return config;
+        webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+            return config;
+        },
+        images: {
+            disableStaticImages: true,
+        },
+        // NextFuture
+        // future: {
+        //   webpack5: true,
+        // },
     },
-    exportPathMap: async function (defaultPathMap, { dev, dir, outDir, distDir, buildId }) {
-        console.log(defaultPathMap, 'defaultPathMap');
-        return {
-            '/': { page: '/' },
-            '/ssg_path': { page: '/ssg_path' },
-            '/ssg_render': { page: '/ssg_render' },
-            '/ssr_render': { page: '/ssr_render' },
-            '/isr_render': { page: '/isr_render' },
-            //   '/p/hello-nextjs': { page: '/post', query: { title: 'hello-nextjs' } },
-            //   '/p/learn-nextjs': { page: '/post', query: { title: 'learn-nextjs' } },
-            //   '/p/deploy-nextjs': { page: '/post', query: { title: 'deploy-nextjs' } },
-        };
-    },
-    images: {
-        loader: 'imgix',
-        path: '',
-    },
-    typescript: {
-        ignoreBuildErrors: true,
-    },
-    future: {
-        // if you use webpack5
-        webpack5: true,
-    },
-};
+);
+// const withImages = require('next-images');
+// module.exports = withImages({
+//     images: {
+//         disableStaticImages: true,
+//     },
+//     //   assetPrefix: 'https://example.com',
+//     //   dynamicAssetPrefix: true,
+//     webpack(config, options) {
+//         return config;
+//     },
+// });
