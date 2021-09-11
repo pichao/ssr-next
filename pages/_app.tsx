@@ -1,5 +1,5 @@
 import React from 'react';
-
+import '../public/css/fonts.css';
 const WrappedApp = ({ Component, pageProps }) => {
     // const { pageProps, Component } = props;
 

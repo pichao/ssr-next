@@ -17,7 +17,7 @@ const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 // import { useRequest } from 'ahooks';
 import Link from 'next/link';
 import io from 'socket.io-client';
-
+// import HomeSvg from '../public/svg/home2.svg';
 export interface HelloWorldProps {
     userName?: string;
     lang?: string;
@@ -77,6 +77,9 @@ const Index = (props: HelloWorldProps) => {
 
     return (
         <div data-sonicdiff="first">
+            {/* <HomeSvg /> */}
+
+            <span className="icon-home"></span>
             <div>{dayjs().valueOf()}</div>
             <img src={require('../public/images/a.jpg')} />
             <Image src={'/images/a.jpg'} alt="me" width="64" height="64" />
