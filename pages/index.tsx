@@ -78,7 +78,7 @@ const Index = (props: HelloWorldProps) => {
     return (
         <div data-sonicdiff="first">
             {/* <HomeSvg /> */}
-
+            <div className={styles.background}></div>
             <span className="icon-home"></span>
             <div>{dayjs().valueOf()}</div>
             <img src={require('../public/images/a.jpg')} />
