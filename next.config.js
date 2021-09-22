@@ -1,25 +1,33 @@
 const withPlugins = require('next-compose-plugins');
-const withAntdLess = require('next-plugin-antd-less');
+// const withAntdLess = require('next-plugin-antd-less');
 // const withSass = require('@zeit/next-sass');
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+    enabled: process.env.ANALYZE === 'true',
+});
+const withLess = require('next-with-less');
 const path = require('path');
 const withImages = require('next-images');
-// const withPWA = require('next-pwa');
-const pluginAntdLess = withAntdLess({
-    // modifyVars: {
-    //   '@THEME--DARK': 'theme-dark',
-    // },
-    // lessVarsFilePath: './src/styles/variables.less',
-    // cssLoaderOptions: {
-    //   esModule: false,
-    //   sourceMap: false,
-    //   modules: {
-    //     mode: 'local',
-    //   },
-    // },
-});
+const withPWA = require('next-pwa');
+// const pluginAntdLess = withAntdLess({
+//     // modifyVars: {
+//     //   '@THEME--DARK': 'theme-dark',
+//     // },
+//     // lessVarsFilePath: './src/styles/variables.less',
+//     // cssLoaderOptions: {
+//     //   esModule: false,
+//     //   sourceMap: false,
+//     //   modules: {
+//     //     mode: 'local',
+//     //   },
+//     // },
+// });
+const withTM = require('next-transpile-modules')(['antd-mobile', 'antd']);
 module.exports = withPlugins(
     [
-        [pluginAntdLess],
+        // [pluginAntdLess],
+        [withBundleAnalyzer],
+        [withLess],
+        [withTM],
         [
             withImages,
             {
@@ -48,6 +56,12 @@ module.exports = withPlugins(
 
         webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
             // config.resolve.alias['~'] = path.resolve(__dirname);
+            config.resolve.alias = {
+                ...config.resolve.alias,
+                react: 'preact/compat',
+                'react-dom': 'preact/compat',
+                '@images': path.resolve(__dirname, `./public/${process.env.NEXT_PUBLIC_SITE}/images`),
+            };
             config.module.rules.push({
                 test: /\.(woff|woff2|eot|ttf|svg)$/,
                 use: [
@@ -60,7 +74,10 @@ module.exports = withPlugins(
                 ],
             });
 
-            config.resolve.alias['@images'] = path.resolve(__dirname, './public/images');
+            config.resolve.alias['@images/*'] = path.resolve(
+                __dirname,
+                `./public/${process.env.NEXT_PUBLIC_SITE}/images/*`,
+            );
             return config;
         },
         images: {

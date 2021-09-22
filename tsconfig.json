@@ -22,10 +22,10 @@
         "isolatedModules": true,
         "baseUrl": ".",
         "paths": {
-            "@images/*": ["./public/images/*"]
+            // "@images/*": ["./public/yb/images/*"],
             // "pages": ["/pages/*"],
-            // "react": ["node_modules/preact/compat"],
-            // "react-dom": ["node_modules/preact/compat"]
+            "react": ["node_modules/preact/compat"],
+            "react-dom": ["node_modules/preact/compat"]
         }
     },
     "exclude": ["node_modules"],

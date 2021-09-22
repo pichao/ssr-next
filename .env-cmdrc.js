@@ -1,5 +1,5 @@
 const siteConfigs = {
-    yyds_yb: {
+    yb: {
         common: {
             port: process.env.npm_config_port,
             yyds_port: 3000,
@@ -15,7 +15,7 @@ const siteConfigs = {
             yyds_apiUrl: '333',
         },
     },
-    yyds_leyu: {
+    leyu: {
         common: {
             port: process.env.npm_config_port,
             yyds_name: process.env.npm_config_site,
@@ -30,7 +30,7 @@ const siteConfigs = {
             yyds_apiUrl: 'leyu333',
         },
     },
-    yyds_hth: {
+    hth: {
         common: {
             port: process.env.npm_config_port,
             yyds_name: process.env.npm_config_site,
@@ -46,8 +46,14 @@ const siteConfigs = {
         },
     },
 };
-
+const yyds_site = 'yb';
 module.exports = new Promise((resolve, reject) => {
-    const rcArgvs = siteConfigs[process.env.npm_config_site];
-    return resolve(rcArgvs);
+    const rcArgvs = siteConfigs[yyds_site];
+    return resolve({
+        rcArgvs,
+        common: {
+            ...rcArgvs.common,
+            NEXT_PUBLIC_SITE: yyds_site,
+        },
+    });
 });

@@ -19,11 +19,13 @@ const Post = ({ post }) => {
             <B />
             <div className={styles.about}>这是aboutID页面</div>
             <div>{post.id}</div>
+            {/* <img src={require('@images/a.jpg')} />
+            <img src={require('@images/1.png')} /> */}
             <div className={styles.imgUrl}></div>
             <div>
                 {/* <img src="/images/a.jpg" alt="" /> */}
                 {/* <img src="/images/b.jpg" alt="" /> */}
-                <img src={require('../../public/images/a.jpg')} alt="" />
+                {/* <img src={require('../../public/images/a.jpg')} alt="" /> */}
             </div>
         </div>
     );

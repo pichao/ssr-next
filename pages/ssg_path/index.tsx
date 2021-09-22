@@ -1,6 +1,9 @@
 import React from 'react';
 import styles from './index.module.scss';
 import Link from 'next/link';
+import { DatePicker, DatePickerView, Checkbox } from 'antd-mobile';
+const CheckboxItem = Checkbox.CheckboxItem;
+import { Button } from 'antd';
 // import { getServerSideProps } from 'pages';
 export interface HelloWorldProps {
     userName?: string;
@@ -9,6 +12,9 @@ export interface HelloWorldProps {
 const About = (props: HelloWorldProps) => {
     return (
         <div>
+            <DatePicker visible={false} />
+            <DatePickerView />
+            <Button type={'primary'}>rrrrrrrrrrr</Button>
             <div className={styles.about}>这是about页面</div>
             <Link href="/ssg_path/55">详情页</Link>
         </div>

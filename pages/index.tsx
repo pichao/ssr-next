@@ -3,7 +3,9 @@ import Image from 'next/image';
 import axios from 'axios';
 import styles from './index.module.scss';
 import Router from 'next/router';
-import { Button, DatePicker } from 'antd';
+import { Button } from 'antd-mobile';
+import { DatePicker, List } from 'antd-mobile';
+import { now } from 'lodash';
 // import Link from 'next/link'
 // import { wrapper } from '../store';
 import dayjs from 'dayjs';
@@ -16,7 +18,7 @@ const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 // import { Button, DatePicker } from 'antd';
 // import { useRequest } from 'ahooks';
 import Link from 'next/link';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 // import HomeSvg from '../public/svg/home2.svg';
 export interface HelloWorldProps {
     userName?: string;
@@ -78,12 +80,19 @@ const Index = (props: HelloWorldProps) => {
     return (
         <div data-sonicdiff="first">
             {/* <HomeSvg /> */}
-            <div className={styles.background}></div>
+            <div>222</div>
+            {/* <div className={styles.background}></div> */}
             <span className="icon-home"></span>
-            <div>{dayjs().valueOf()}</div>
-            <img src={require('../public/images/a.jpg')} />
-            <Image src={'/images/a.jpg'} alt="me" width="64" height="64" />
-            <div className={styles.aaa}>这是首页444</div>
+            <div>{now()}</div>
+            {/* <div>{dayjs().valueOf()}</div> */}
+            {/* <img src={require('@images/a.jpg')} /> */}
+            <DatePicker visible={false}>11111111</DatePicker>
+            {/* <Image src={'/images/a.jpg'} alt="me" width="64" height="64" /> */}
+            {/* <Image src={require('@images/a.jpg')} alt="me" width="64" height="64" /> */}
+            <Link href="/ssg_path">
+                <Button type={'primary'}>ssg_path</Button>
+            </Link>
+            {/* <div className={styles.aaa}>这是首页444</div>
             <Button
                 type={'primary'}
                 onClick={async () => {
@@ -138,6 +147,7 @@ const Index = (props: HelloWorldProps) => {
             >
                 dianji
             </button>
+         */}
         </div>
     );
 };
