@@ -1,3 +1,13 @@
+@import '~@themes/variable';
+
 .users {
-    color: red;
+    width: 400px;
+    height: 300px;
+    color: $text1-color;
+    background: $bac1-ground;
+}
+.bac {
+    width: 400px;
+    height: 300px;
+    background: url('./imgs/#{$platform}/222.png');
 }

@@ -6,6 +6,7 @@ import Router from 'next/router';
 import { Button } from 'antd-mobile';
 import { DatePicker, List } from 'antd-mobile';
 import { now } from 'lodash';
+
 // import Link from 'next/link'
 // import { wrapper } from '../store';
 import dayjs from 'dayjs';
@@ -80,15 +81,15 @@ const Index = (props: HelloWorldProps) => {
     return (
         <div data-sonicdiff="first">
             {/* <HomeSvg /> */}
-            <div>222</div>
-            {/* <div className={styles.background}></div> */}
+            <div className={styles.aaa}>222</div>
+            <div className={styles.background}></div>
             <span className="icon-home"></span>
             <div>{now()}</div>
             {/* <div>{dayjs().valueOf()}</div> */}
             {/* <img src={require('@images/a.jpg')} /> */}
             <DatePicker visible={false}>11111111</DatePicker>
-            {/* <Image src={'/images/a.jpg'} alt="me" width="64" height="64" /> */}
-            {/* <Image src={require('@images/a.jpg')} alt="me" width="64" height="64" /> */}
+            {/* <img src={require('./imgs/a.jpg')} alt="me" width="64" height="64" /> */}
+            {/* <Image src={require('./imgs/a.jpg').default} alt="me" width="64" height="64" /> */}
             <Link href="/ssg_path">
                 <Button type={'primary'}>ssg_path</Button>
             </Link>
@@ -160,20 +161,5 @@ export const getServerSideProps = async (context) => {
         props: {}, // will be passed to the page component as props
     };
 };
-
-//  Index.getInitialProps = async ({ store }) => {
-//     const res = await axios('/api/search/shows?q=batman');
-//     // const data = await res.json();
-//     console.log(res, 'cccccccccccc');
-//     store.dispatch({
-//         type: 'GET_USER_SUCCESS',
-//         payload: {
-//             cc: 'xxx',
-//         },
-//     });
-//     return {
-//         dd: 'aa',
-//     };
-// };
 
 export default Index;

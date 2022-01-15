@@ -22,11 +22,10 @@
         "isolatedModules": true,
         "baseUrl": ".",
         "paths": {
-            // "@images/*": ["./public/yb/images/*"],
-            // "pages": ["/pages/*"],
             "react": ["node_modules/preact/compat"],
             "react-dom": ["node_modules/preact/compat"]
-        }
+        },
+        "incremental": true
     },
     "exclude": ["node_modules"],
     "include": ["@types/**/*", "**/*.ts", "**/*.tsx"]
