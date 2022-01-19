@@ -19,6 +19,7 @@ const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 // import { Button, DatePicker } from 'antd';
 // import { useRequest } from 'ahooks';
 import Link from 'next/link';
+import { platform } from 'os';
 // import io from 'socket.io-client';
 // import HomeSvg from '../public/svg/home2.svg';
 export interface HelloWorldProps {
@@ -82,8 +83,17 @@ const Index = (props: HelloWorldProps) => {
         <div data-sonicdiff="first">
             {/* <HomeSvg /> */}
             <div className={styles.aaa}>222</div>
-            <div className={styles.background}></div>
+            <div className={styles.background}>{process.env.NEXT_PUBLIC_SITE}</div>
             <span className="icon-home"></span>
+            <img src={require(`./imgs/${process.env.NEXT_PUBLIC_SITE}/b.jpg`)} alt="" />
+            <img src={require(`./imgs/${process.env.NEXT_PUBLIC_SITE}/222.png`)} alt="" />
+
+            <img
+                src={
+                    '/optimize/img?url=https://images.pexels.com/photos/10334732/pexels-photo-10334732.jpeg&format=true'
+                }
+                alt=""
+            />
             <div>{now()}</div>
             {/* <div>{dayjs().valueOf()}</div> */}
             {/* <img src={require('@images/a.jpg')} /> */}

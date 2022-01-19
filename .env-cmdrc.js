@@ -1,9 +1,8 @@
 const siteConfigs = {
     yb: {
         common: {
-            port: process.env.npm_config_port,
-            yyds_port: 3000,
-            yyds_name: process.env.npm_config_site,
+            NEXT_PUBLIC_params1: 'params1',
+            NEXT_PUBLIC_params2: 'params1',
         },
         dev: {
             yyds_apiUrl: '1111',
@@ -17,8 +16,8 @@ const siteConfigs = {
     },
     leyu: {
         common: {
-            port: process.env.npm_config_port,
-            yyds_name: process.env.npm_config_site,
+            NEXT_PUBLIC_params1: 'params1',
+            NEXT_PUBLIC_params2: 'params1',
         },
         dev: {
             yyds_apiUrl: 'leyu1111',
@@ -32,8 +31,8 @@ const siteConfigs = {
     },
     hth: {
         common: {
-            port: process.env.npm_config_port,
-            yyds_name: process.env.npm_config_site,
+            NEXT_PUBLIC_params1: 'params1',
+            NEXT_PUBLIC_params2: 'params1',
         },
         dev: {
             yyds_apiUrl: 'hth1111',
@@ -46,14 +45,27 @@ const siteConfigs = {
         },
     },
 };
-const yyds_site = 'yb';
+const getCommandParams = () => {
+    const commandParams = {};
+    Object.keys(process.env)
+        .filter((item) => /yyds/.test(item))
+        .forEach((item) => {
+            const key = item.replace('yyds_', '').toUpperCase();
+            const value = process.env[item];
+            commandParams[`NEXT_PUBLIC_${key}`] = value;
+        });
+    return commandParams;
+};
 module.exports = new Promise((resolve, reject) => {
-    const rcArgvs = siteConfigs[yyds_site];
+    const commandParams = getCommandParams();
+
+    const rcArgvs = siteConfigs[commandParams['NEXT_PUBLIC_SITE']];
+
     return resolve({
         rcArgvs,
         common: {
             ...rcArgvs.common,
-            NEXT_PUBLIC_SITE: yyds_site,
+            ...commandParams,
         },
     });
 });

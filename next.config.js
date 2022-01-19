@@ -1,13 +1,16 @@
 const withPlugins = require('next-compose-plugins');
 // const withAntdLess = require('next-plugin-antd-less');
-const withImages = require('next-images');
+// const withImages = require('next-images');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
     enabled: process.env.ANALYZE === 'true',
 });
+const withPreact = require('next-plugin-preact');
 const withLess = require('next-with-less');
+// const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+const { extendDefaultPlugins } = require('svgo');
 const fs = require('fs');
 const path = require('path');
-const withOptimizedImages = require('next-optimized-images');
+// const withOptimizedImages = require('next-optimized-images');
 const withPWA = require('next-pwa');
 // const pluginAntdLess = withAntdLess({
 //     // modifyVars: {
@@ -23,11 +26,12 @@ const withPWA = require('next-pwa');
 //     // },
 // });
 const withTM = require('next-transpile-modules')(['antd-mobile', 'antd']);
-console.log(process.env.NEXT_PUBLIC_SITE, '999999');
+const isProd = process.env.NODE_ENV === 'production';
 module.exports = withPlugins(
     [
         // [pluginAntdLess],
         // [withBundleAnalyzer],
+        [withPreact],
         [withLess],
         [withTM],
         // [
@@ -48,27 +52,20 @@ module.exports = withPlugins(
         //     },
         // ],
 
-        // [
-        //     withImages,
-        //     {
-        //         esModule: false,
-        //         inlineImageLimit: 1024,
-        //     },
-        // ],
-        // [
-        //     withPWA,
-        //     {
-        //         pwa: {
-        //             dest: 'public',
-        //             // disable: process.env.NODE_ENV === 'development',
-        //             // register: true,
-        //             // scope: '/',
-        //             skipWaiting: true,
-        //             sw: 'service-worker.js',
-        //             //...
-        //         },
-        //     },
-        // ],
+        [
+            withPWA,
+            {
+                pwa: {
+                    dest: 'public',
+                    disable: !isProd,
+                    register: true,
+                    scope: '/',
+                    skipWaiting: true,
+                    sw: 'service-worker.js',
+                    //...
+                },
+            },
+        ],
     ],
     {
         distDir: 'bnext',
@@ -77,26 +74,55 @@ module.exports = withPlugins(
             // config.resolve.alias['~'] = path.resolve(__dirname);
             config.resolve.alias = {
                 ...config.resolve.alias,
-                react: 'preact/compat',
-                'react-dom': 'preact/compat',
 
                 '@themes': `./themes/${process.env.NEXT_PUBLIC_SITE}`,
             };
-            // console.log(config.assetPrefix, '99999');
             config.module.rules.push({
-                test: /\.(woff|woff2|eot|ttf|svg|png|jpg)$/,
-                type: 'asset',
-                parser: {
-                    dataUrlCondition: {
-                        maxSize: 400 * 1024, // 4kb
+                test: /\.(png|jpg|gif)$/i,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8 * 1024, // 8kb
+                            esModule: false,
+
+                            fallback: {
+                                loader: 'file-loader',
+                                options: {
+                                    name: isProd ? '[hash:7].[ext]' : '[name].[ext]',
+
+                                    outputPath: 'static',
+                                },
+                            },
+                        },
                     },
-                },
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            mozjpeg: {
+                                progressive: true,
+                            },
+                            // optipng.enabled: false will disable optipng
+                            optipng: {
+                                enabled: true,
+                            },
+                            pngquant: {
+                                quality: [0.65, 0.9],
+                                speed: 4,
+                            },
+                            gifsicle: {
+                                interlaced: false,
+                            },
+                            // the webp option will enable WEBP
+                            webp: {
+                                quality: 75,
+                            },
+                        },
+                    },
+                ],
+                type: 'javascript/auto',
             });
 
-            // config.resolve.alias['@images/*'] = path.resolve(
-            //     __dirname,
-            //     `./public/${process.env.NEXT_PUBLIC_SITE}/images/*`,
-            // );
             return config;
         },
         images: {
